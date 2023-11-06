@@ -1,15 +1,15 @@
 const asyncHandler = require("express-async-handler");
 const Contact = require("../models/contactmodel");
 //@desc Get all contacts
-// @access Public
+// @access Private
 //@route GET /api/contacts
 
 const getContacts = asyncHandler(async(req, res) =>{
-  const contacts = await Contact.find();
+  const contacts = await Contact.find( {user_id: req.user.id});
   res.status(200).json(contacts);
 });
 //@desc Create contact
-// @access Public
+// @access Private
 //@route GET /api/contacts
 
 const createContact = asyncHandler(async(req, res) =>{
@@ -22,13 +22,14 @@ const createContact = asyncHandler(async(req, res) =>{
   const contact = await Contact.create({
     name,
     email,
-    phone
+    phone,
+    user_id: req.user.id
   });
   res.status(201).json(contact);
 });
 
 //@desc Get contact
-// @access Public
+// @access Private
 //@route GET /api/contacts/
 
 const getContact = asyncHandler(async(req, res) =>{
@@ -41,7 +42,7 @@ const getContact = asyncHandler(async(req, res) =>{
 });
 
 //@desc Update contact
-// @access Public
+// @access Private
 //@route PUT /api/contacts
 
 const updateContact = asyncHandler(async(req, res) =>{
@@ -59,7 +60,7 @@ const updateContact = asyncHandler(async(req, res) =>{
 });
 
 //@desc Delete contact
-// @access Public
+// @access Private
 //@route DELETE /api/contacts
 
 const deleteContact = asyncHandler(async (req, res) => {
